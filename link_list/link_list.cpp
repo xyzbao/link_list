@@ -9,8 +9,10 @@ typedef struct  _node{
 	//struct _node* p;
 	struct _node * next;
 }node_t;
+void  put_all(node_t *head);
 void insertlist(node_t *head, int t);
-
+void deletelist(node_t *head, int value);
+void revese(node_t *head);
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int i,a; 
@@ -20,21 +22,32 @@ int _tmain(int argc, _TCHAR* argv[])
 	head->a = 1;
 	q1 = head;	
 	printf("输入五个数：");
-	for (i = 0; i < 10 ; i++)
+		
+	while(1)
 	{
 		scanf_s("%d", &a);
 		insertlist(q1, a);
+		if (a == 99)
+			break;
 	}
-	
-	while (q1 != NULL)
-	{
-		printf("tt=%d\n", q1->a);
-		q1 = q1->next;
-	}
+	put_all(q1);
+
+//	deletelist(q1, 3);
+	revese(q1);
+
+	put_all(q1);
 	printf("hello! \n");
 	return 0;
 }
-
+void  put_all(node_t *head)
+{
+	node_t *q = head;
+	while (q!= NULL)
+	{
+		printf("tt=%d\n", q->a);
+		q = q->next;
+	}
+}
 
 void insertlist(node_t *head, int t)
 {
@@ -48,6 +61,35 @@ void insertlist(node_t *head, int t)
 	q->next = p;
 	p->a = t;
 	p->next = NULL;
-	
 }
 
+void deletelist(node_t *head, int value)
+{
+	node_t *p = head;
+	node_t *q = p->next;
+	while (q !=NULL)
+	{
+		if (q->a == value){
+			p->next = q->next;
+			free(q);
+		}
+		else{
+			p = p->next;
+			q = p->next;
+		}
+		
+	}
+}
+
+void revese(node_t *head)
+{
+	node_t * p = head ->next;
+	node_t * q = p->next;
+	while (q != NULL)
+	{
+		p->next = q->next->next;
+		q->next = p;
+		q = q->next;
+	}
+	head->next = q;
+}
